@@ -5164,7 +5164,12 @@ static int wpa_supplicant_driver_cmd(struct wpa_supplicant *wpa_s, char *cmd,
 {
 	int ret;
 
-	ret = wpa_drv_driver_cmd(wpa_s, cmd, buf, buflen);
+	if (os_strcasecmp(cmd, "BGSCAN-START") == 0)
+		ret = pno_start(wpa_s);
+	else if (os_strcasecmp(cmd, "BGSCAN-STOP") == 0)
+		ret = pno_stop(wpa_s);
+	else
+		ret = wpa_drv_driver_cmd(wpa_s, cmd, buf, buflen);
 	if (ret == 0) {
 		if (os_strncasecmp(cmd, "COUNTRY", 7) == 0) {
 			struct p2p_data *p2p = wpa_s->global->p2p;
