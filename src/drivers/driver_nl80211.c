@@ -9607,8 +9607,10 @@ static int nl80211_send_frame_cmd(struct i802_bss *bss,
 		goto nla_put_failure;
 	if (freq)
 		NLA_PUT_U32(msg, NL80211_ATTR_WIPHY_FREQ, freq);
+#ifndef ANDROID_P2P
 	if (wait)
 		NLA_PUT_U32(msg, NL80211_ATTR_DURATION, wait);
+#endif /* ANDROID_P2P */
 	if (offchanok && (drv->capa.flags & WPA_DRIVER_FLAGS_OFFCHANNEL_TX))
 		NLA_PUT_FLAG(msg, NL80211_ATTR_OFFCHANNEL_TX_OK);
 	if (no_cck)
